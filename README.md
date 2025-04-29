@@ -31,12 +31,10 @@ This project is a work in progress: star it, create issues, features or pull req
 
 ## Quick Start with Docker
 
-[![dockeri.co](https://dockerico.blankenship.io/image/chrishubert/whatsapp-web-api)](https://hub.docker.com/r/chrishubert/whatsapp-web-api)
-
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/chrishubert/whatsapp-api.git
+git clone https://github.com/RafaelEstevamReis/whatsapp-api.git
 cd whatsapp-api
 ```
 
