@@ -1,4 +1,5 @@
 require('./routes')
+const fs = require('fs');
 const { restoreSessions } = require('./sessions')
 const { routes } = require('./routes')
 const app = require('express')()
