@@ -34,12 +34,14 @@ const getMessageLog = async (req, res) => {
       console.error('Error reading message log:', err);
       return res.status(500).json({ success: false, error: 'Failed to read message log' });
     }
-    res.json({ success: true, log: data });
+
+    const last50Lines = data.split('\n').slice(-50).join('\n'); // tail -50
+
+    res.send(last50Lines);
   });
 };
 
 const getWebhookLog = async (req, res) => {
-  console.log('Webhook endpoint hit')
   const logFilePath = `${sessionFolderPath}/webhook.log`;
 
   fs.readFile(logFilePath, 'utf8', (err, data) => {
@@ -47,7 +49,18 @@ const getWebhookLog = async (req, res) => {
       console.error('Error reading webhook log:', err);
       return res.status(500).json({ success: false, error: 'Failed to read webhook log' });
     }
-    res.json({ success: true, log: data });
+    
+    const last50Lines = data.split('\n').slice(-50).join('\n');
+    const logArray = last50Lines.map(line => {
+      try {
+        return JSON.parse(line); // To Json
+      } catch (e) {
+        console.error('Error parsing webhook log line:', line, e.message);
+        return null; // Error if not valid
+      }
+    }).filter(entry => entry !== null); // filter out invalid (null)
+
+    res.json({ success: true, log: logArray });
   });
 };
 
