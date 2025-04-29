@@ -11,7 +11,7 @@ const triggerWebhook = (webhookURL, sessionId, dataType, data) => {
     dataType,
     data,
   };
-  const logFilePath = path.join(__dirname, `${sessionFolderPath}/webhook.log`); // Adjust the path if needed
+  const logFilePath = path.join(__dirname, `${sessionFolderPath}/webhook.log`);
 
   fs.appendFile(logFilePath, JSON.stringify(logData) + '\n', (err) => {
     if (err) {

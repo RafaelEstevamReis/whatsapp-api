@@ -25,6 +25,19 @@ const ping = async (req, res) => {
   }
 }
 
+// Method to read the log file
+const getWebhookLog = async (req, res) => {
+  const logFilePath = path.join(__dirname, `${sessionFolderPath}/webhook.log`);
+
+  fs.readFile(logFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading webhook log:', err);
+      return res.status(500).json({ success: false, error: 'Failed to read webhook log' });
+    }
+    res.json({ success: true, log: data });
+  });
+};
+
 /**
  * Example local callback function that generates a QR code and writes a log file
  *
@@ -52,18 +65,5 @@ const localCallbackExample = async (req, res) => {
     sendErrorResponse(res, 500, error.message)
   }
 }
-
-// Method to read the log file
-const getWebhookLog = async (req, res) => {
-  const logFilePath = path.join(__dirname, `${sessionFolderPath}/webhook.log`); // Adjust path if needed
-
-  fs.readFile(logFilePath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Error reading webhook log:', err);
-      return res.status(500).json({ success: false, error: 'Failed to read webhook log' });
-    }
-    res.json({ success: true, log: data });
-  });
-};
 
 module.exports = { ping, localCallbackExample, getWebhookLog };
