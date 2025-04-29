@@ -7,7 +7,7 @@ const { maxAttachmentSize } = require('./config')
 
 // Logging Middleware
 app.use((req, res, next) => {
-    const logFilePath = path.join(__dirname, 'requests.log');
+    const logFilePath = `${sessionFolderPath}/requests.log`;
     const logEntry = `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} ?${JSON.stringify(req.query)}`;
     console.log(logEntry)
     
