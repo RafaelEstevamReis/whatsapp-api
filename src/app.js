@@ -3,7 +3,7 @@ const { restoreSessions } = require('./sessions')
 const { routes } = require('./routes')
 const app = require('express')()
 const bodyParser = require('body-parser')
-const { maxAttachmentSize } = require('./config')
+const { maxAttachmentSize, sessionFolderPath } = require('./config')
 
 // Logging Middleware
 app.use((req, res, next) => {
