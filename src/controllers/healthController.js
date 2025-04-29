@@ -26,9 +26,21 @@ const ping = async (req, res) => {
 }
 
 // Method to read the log file
+const getMessageLog = async (req, res) => {
+  const logFilePath = `${sessionFolderPath}/message_log.txt`
+
+  fs.readFile(logFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading message log:', err);
+      return res.status(500).json({ success: false, error: 'Failed to read message log' });
+    }
+    res.json({ success: true, log: data });
+  });
+};
+
 const getWebhookLog = async (req, res) => {
   console.log('Webhook endpoint hit')
-  const logFilePath = path.join(__dirname, `${sessionFolderPath}/webhook.log`);
+  const logFilePath = `${sessionFolderPath}/webhook.log`;
 
   fs.readFile(logFilePath, 'utf8', (err, data) => {
     if (err) {
@@ -67,4 +79,4 @@ const localCallbackExample = async (req, res) => {
   }
 }
 
-module.exports = { ping, localCallbackExample, getWebhookLog };
+module.exports = { ping, localCallbackExample, getWebhookLog, getMessageLog };
