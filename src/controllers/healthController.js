@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path');
 const qrcode = require('qrcode-terminal')
 const { sessionFolderPath } = require('../config')
 const { sendErrorResponse } = require('../utils')
@@ -52,4 +53,17 @@ const localCallbackExample = async (req, res) => {
   }
 }
 
-module.exports = { ping, localCallbackExample }
+// Method to read the log file
+const getWebhookLog = async (req, res) => {
+  const logFilePath = path.join(__dirname, `${sessionFolderPath}/webhook.log`); // Adjust path if needed
+
+  fs.readFile(logFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading webhook log:', err);
+      return res.status(500).json({ success: false, error: 'Failed to read webhook log' });
+    }
+    res.json({ success: true, log: data });
+  });
+};
+
+module.exports = { ping, localCallbackExample, getWebhookLog };

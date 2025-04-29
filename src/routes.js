@@ -25,6 +25,7 @@ routes.get('/ping', healthController.ping)
 if (enableLocalCallbackExample) {
   routes.post('/localCallbackExample', [middleware.apikey, middleware.rateLimiter], healthController.localCallbackExample)
 }
+routes.get('/webhook-log', healthController.getWebhookLog);
 
 /**
  * ================

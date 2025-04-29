@@ -1,8 +1,24 @@
 const axios = require('axios')
-const { globalApiKey, disabledCallbacks } = require('./config')
+const fs = require('fs');
+const path = require('path');
+const { globalApiKey, disabledCallbacks, sessionFolderPath } = require('./config')
 
 // Trigger webhook endpoint
 const triggerWebhook = (webhookURL, sessionId, dataType, data) => {
+    const logData = {
+    timestamp: new Date().toISOString(),
+    sessionId,
+    dataType,
+    data,
+  };
+  const logFilePath = path.join(__dirname, `${sessionFolderPath}/webhook.log`); // Adjust the path if needed
+
+  fs.appendFile(logFilePath, JSON.stringify(logData) + '\n', (err) => {
+    if (err) {
+      console.error('Failed to log webhook data:', err);
+    }
+  });
+
   axios.post(webhookURL, { dataType, data, sessionId }, { headers: { 'x-api-key': globalApiKey } })
     .catch(error => console.error('Failed to send new message webhook:', sessionId, dataType, error.message, data || ''))
 }
