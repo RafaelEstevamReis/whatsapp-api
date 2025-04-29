@@ -50,8 +50,10 @@ const getWebhookLog = async (req, res) => {
       return res.status(500).json({ success: false, error: 'Failed to read webhook log' });
     }
     
-    const last50Lines = data.split('\n').slice(-50).join('\n');
-    const logArray = last50Lines.map(line => {
+    const lines = data.split('\n').filter(line => line.trim() !== '');
+    const last50Lines = lines.slice(-50);
+    const logArray = last50Lines.map(line =>
+    {
       try {
         return JSON.parse(line); // To Json
       } catch (e) {
