@@ -5,6 +5,13 @@ const app = require('express')()
 const bodyParser = require('body-parser')
 const { maxAttachmentSize } = require('./config')
 
+// Logging Middleware
+app.use((req, res, next) => {
+    const logEntry = `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} ?${JSON.stringify(req.query)}`;
+    console.log(logEntry)
+  
+    next();
+  });
 // Initialize Express app
 app.disable('x-powered-by')
 app.use(bodyParser.json({ limit: maxAttachmentSize + 1000000 }))

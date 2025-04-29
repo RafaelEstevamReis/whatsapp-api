@@ -27,6 +27,7 @@ const ping = async (req, res) => {
 
 // Method to read the log file
 const getWebhookLog = async (req, res) => {
+  console.log('Webhook endpoint hit')
   const logFilePath = path.join(__dirname, `${sessionFolderPath}/webhook.log`);
 
   fs.readFile(logFilePath, 'utf8', (err, data) => {
